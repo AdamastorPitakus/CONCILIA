@@ -1,0 +1,6 @@
+2023-10-25 17:50:02,558 - INFO - Programa iniciado
+2023-10-25 17:50:05,032 - INFO - Criando planilha de conciliação bancária
+2023-10-25 17:50:05,034 - INFO - Planilha de conciliação bancária criada
+2023-10-25 17:50:05,034 - INFO - Extraindo dados do PDF: C:/Users/VtR/Downloads/Extrato Santander - CCorrente - 01.2023.pdf
+2023-10-25 17:50:07,634 - INFO - Dados extraídos do PDF: C:/Users/VtR/Downloads/Extrato Santander - CCorrente - 01.2023.pdf
+2023-10-25 17:50:07,672 - INFO - Planilha de conciliação bancária salva
