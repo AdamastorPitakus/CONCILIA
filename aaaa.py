@@ -9,6 +9,10 @@ import re
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
 
+# Variável para rastrear o ID das transações
+transaction_id = 1
+
+
 def extract_data_from_pdf(pdf_path):
     
     logger.info(f"Extraindo dados do PDF: {pdf_path}")
@@ -20,6 +24,16 @@ def extract_data_from_pdf(pdf_path):
             page_text = page.extract_text()
             page_data = page_text.split('\n')
             data.extend(page_data)
+
+    for line in data:
+        transactions = re.findall(r'(\d{2}/\d{2})\s(.*?)\s(-?\d+,\d{2}-?)\s(-?\d+,\d{2}-?)?', line)
+        for transaction in transactions:
+            date, description, debit, credit = transaction
+
+    # Salvar os dados extraídos em um arquivo .txt
+    with open('dados_extraidos.txt', 'w', encoding='utf-8') as txt_file:
+        for line in data:
+            txt_file.write(line + '\n')
 
     logger.info(f"Dados extraídos do PDF: {pdf_path}")
     return data
@@ -108,15 +122,17 @@ def criar_planilha_conciliacao_bancaria(pdf_path):
         ws[f'B{i+2}'] = coluna_descricao_referencia[i]
         ws[f'C{i+2}'] = coluna_valor[i]
         ws[f'D{i+2}'] = coluna_saldo_disponivel[i]
-        ws[f'E{i+2}'] = coluna_identificador_transacao[i]
+        ws[f'E{i+2}'] = transaction_id  # Adicionando o ID autoncrementado
         ws[f'F{i+2}'] = coluna_categoria_conta_contabil[i]
         ws[f'G{i+2}'] = coluna_status_conciliacao[i]
         ws[f'H{i+2}'] = coluna_notas_comentarios[i]
+        transaction_id += 1  # Incrementando o ID
 
     # Salvar a planilha
     wb.save('Conciliação Bancária.xlsx')
 
     logger.info("Planilha de conciliação bancária salva")
+    logger.info(f"{min_length} linhas foram importadas e salvas no arquivo.")
     logger.info(f"Total de dados extraídos do PDF: {len(dados_extraidos)}")
 
 # Exemplo de uso:
