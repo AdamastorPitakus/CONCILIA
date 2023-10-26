@@ -119,9 +119,9 @@ def criar_planilha_conciliacao_bancaria(pdf_path):
     # Percorrer e gravar os dados nas colunas da planilha
     for i in range(min_length):
         ws[f'A{i+2}'] = coluna_data[i]
-        ws[f'B{i+2}'] = coluna_descricao_referencia[i]
-        ws[f'C{i+2}'] = coluna_valor[i]
-        ws[f'D{i+2}'] = coluna_saldo_disponivel[i]
+        ws[f'B{i+2}'] = coluna_descricao_referencia[i]#.replace('  ', ' ') # Remover espaços extras da descrição da transação (opcional) 
+        ws[f'C{i+2}'] = coluna_valor[i] # Adicionando o valor da transação na coluna Valor da planilha de conciliação bancária
+        ws[f'D{i+2}'] = coluna_saldo_disponivel[i]# Adicionando o saldo disponível na coluna Saldo Disponível da planilha de conciliação bancária
         ws[f'E{i+2}'] = transaction_id  # Adicionando o ID autoncrementado
         ws[f'F{i+2}'] = coluna_categoria_conta_contabil[i]
         ws[f'G{i+2}'] = coluna_status_conciliacao[i]
@@ -134,6 +134,7 @@ def criar_planilha_conciliacao_bancaria(pdf_path):
     logger.info("Planilha de conciliação bancária salva")
     logger.info(f"{min_length} linhas foram importadas e salvas no arquivo.")
     logger.info(f"Total de dados extraídos do PDF: {len(dados_extraidos)}")
+    
 
 # Exemplo de uso:
 # Abra uma janela de diálogo para selecionar o arquivo PDF
